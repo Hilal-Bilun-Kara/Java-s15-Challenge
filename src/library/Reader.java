@@ -5,6 +5,9 @@ import java.util.List;
 
 public class Reader extends Person {
     private List<Book> books;
+    private MemberRecord memberRecord;
+
+
 
     public Reader(String name) {
         super(name, null);
@@ -23,13 +26,19 @@ public class Reader extends Person {
 
     public void borrowBook(Book book) {
         if (book.getStatus().equals("available")) {
-            book.setStatus("borrowed");
-            books.add(book);
-            System.out.println("Borrowed book: " + book.getName());
+            if (memberRecord.getNoBooksIssued() < memberRecord.getMaxBookLimit()) { // Max kitap limitine ulaşılmadıysa devam et
+                book.setStatus("borrowed");
+                books.add(book);
+                memberRecord.incBookIssued(); // Ödünç alınan kitap sayısını artır
+                System.out.println("Borrowed book: " + book.getName());
+            } else {
+                System.out.println("You have reached the maximum limit of borrowed books (" + memberRecord.getMaxBookLimit() + ").");
+            }
         } else {
             System.out.println("Book is not available for borrowing: " + book.getName());
         }
     }
+
 
     public void returnBook(Book book) {
         if (books.remove(book)) {

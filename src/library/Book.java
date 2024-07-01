@@ -1,16 +1,16 @@
 package library;
 
-import javax.naming.Name;
 import java.util.Date;
 
 
-public abstract class Book {
+public class Book {
     protected String bookID;
     protected String author;
     protected String name;
     protected String status;
     protected String edition;
     protected Date dateOfPurchase;
+    protected Reader owner;
 
     public Book(String bookID, String author, String name, String edition, Date dateOfPurchase) {
         this.bookID = bookID;
@@ -34,11 +34,12 @@ public abstract class Book {
     }
 
     public void changeOwner(Reader reader) {
-        System.out.println("Reader owner changed: " + reader.getName());
+        this.owner = reader;
+        System.out.println("Reader owner changed: " + (reader != null ? reader.getName() : "none"));
     }
 
-    public void getOwner() {
-        System.out.println("Current user information");
+    public Reader getOwner() {
+        return this.owner;
     }
 
 
@@ -51,13 +52,15 @@ public abstract class Book {
     }
 
     public String getAuthor() {
-        System.out.println("Author: " + author);    }
+        return author;
+    }
 
     public void setAuthor(String author) {
         this.author = author;
     }
 
     public void display() {
+        System.out.println("Book Title: " + name);
         System.out.println("Author: " + getAuthor());
         System.out.println("Status: " + getStatus());
         System.out.println("Edition: " + getEdition());
@@ -92,5 +95,18 @@ public abstract class Book {
 
     public void setDateOfPurchase(Date dateOfPurchase) {
         this.dateOfPurchase = dateOfPurchase;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "bookID='" + bookID + '\'' +
+                ", author='" + author + '\'' +
+                ", name='" + name + '\'' +
+                ", status='" + status + '\'' +
+                ", edition='" + edition + '\'' +
+                ", dateOfPurchase=" + dateOfPurchase +
+                ", owner=" + owner +
+                '}';
     }
 }
